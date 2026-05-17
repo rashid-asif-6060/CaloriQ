@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="caloriq_background">#FAFAF7</color>
+    <color name="caloriq_primary">#2F6F4E</color>
+    <color name="caloriq_text_primary">#1F2933</color>
+    <color name="caloriq_text_secondary">#6B7280</color>
+    <color name="caloriq_card">#FFFFFF</color>
+    <color name="caloriq_accent">#DDEFE5</color>
+</resources>
