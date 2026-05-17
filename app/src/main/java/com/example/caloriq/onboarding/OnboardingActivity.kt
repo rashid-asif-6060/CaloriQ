@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -33,22 +34,48 @@ class OnboardingActivity : AppCompatActivity() {
             val rgGender = findViewById<RadioGroup>(R.id.rgGender)
             val rgGoal = findViewById<RadioGroup>(R.id.rgGoal)
 
-            val age = etAge.text.toString().toIntOrNull() ?: 0
-            val heightCm = etHeight.text.toString().toDoubleOrNull() ?: 0.0
-            val currentWeightKg = etCurrentWeight.text.toString().toDoubleOrNull() ?: 0.0
-            val targetWeightKg = etTargetWeight.text.toString().toDoubleOrNull() ?: 0.0
+            val age = etAge.text.toString().toIntOrNull()
+            val heightCm = etHeight.text.toString().toDoubleOrNull()
+            val currentWeightKg = etCurrentWeight.text.toString().toDoubleOrNull()
+            val targetWeightKg = etTargetWeight.text.toString().toDoubleOrNull()
+
+            if (age == null || age <= 0) {
+                Toast.makeText(this, "Please enter a valid age", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (heightCm == null || heightCm <= 0.0) {
+                Toast.makeText(this, "Please enter a valid height", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (currentWeightKg == null || currentWeightKg <= 0.0) {
+                Toast.makeText(this, "Please enter a valid current weight", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (targetWeightKg == null || targetWeightKg <= 0.0) {
+                Toast.makeText(this, "Please enter a valid target weight", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             val gender = when (rgGender.checkedRadioButtonId) {
                 R.id.rbMale -> "Male"
                 R.id.rbFemale -> "Female"
-                else -> "Male"
+                else -> {
+                    Toast.makeText(this, "Please select your gender", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
             }
 
             val goal = when (rgGoal.checkedRadioButtonId) {
                 R.id.rbWeightLoss -> "Weight Loss"
                 R.id.rbWeightGain -> "Weight Gain"
                 R.id.rbMaintenance -> "Maintenance"
-                else -> "Maintenance"
+                else -> {
+                    Toast.makeText(this, "Please select your goal", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
             }
 
             val intent = Intent(this, PreferenceActivity::class.java)

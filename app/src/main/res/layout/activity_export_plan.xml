@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/caloriq_background"
     android:fillViewport="true"
-    tools:context=".commondashboard.ProfileActivity">
+    tools:context=".commondashboard.ExportPlanActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,25 +17,25 @@
         android:padding="24dp">
 
         <TextView
-            android:id="@+id/tvProfileTitle"
+            android:id="@+id/tvExportTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Profile"
+            android:text="Export plan"
             android:textColor="@color/caloriq_text_primary"
             android:textSize="30sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tvProfileSubtitle"
+            android:id="@+id/tvExportSubtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Your saved CaloriQ information"
+            android:text="Review and share your generated diet plan."
             android:textColor="@color/caloriq_text_secondary"
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/tvProfileBody"
+            android:id="@+id/tvExportPlan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
@@ -43,18 +43,18 @@
             android:lineSpacingExtra="6dp"
             android:padding="18dp"
             android:textColor="@color/caloriq_text_primary"
-            android:textSize="16sp"
-            tools:text="Age: 22\nGender: Male" />
+            android:textSize="15sp"
+            tools:text="Daily target: 2100 kcal\n\nBreakfast..." />
 
         <Button
-            android:id="@+id/btnLogout"
+            android:id="@+id/btnSharePlan"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@color/caloriq_accent"
-            android:text="Log out"
+            android:backgroundTint="@color/caloriq_primary"
+            android:text="Share plan"
             android:textAllCaps="false"
-            android:textColor="@color/caloriq_primary"
+            android:textColor="@android:color/white"
             android:textSize="16sp"
             app:cornerRadius="14dp" />
 

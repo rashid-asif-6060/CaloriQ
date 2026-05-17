@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.caloriq.auth.LoginActivity
+import com.example.caloriq.commondashboard.HomeActivity
+import com.example.caloriq.repository.UserProfileRepository
+import com.example.caloriq.utils.UserSession
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -26,7 +29,15 @@ class SplashScreenActivity : AppCompatActivity() {
         }
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, LoginActivity::class.java)
+            val savedProfile = UserProfileRepository.getUserProfile(this)
+
+            val intent = if (savedProfile != null) {
+                UserSession.userProfile = savedProfile
+                Intent(this, HomeActivity::class.java)
+            } else {
+                Intent(this, LoginActivity::class.java)
+            }
+
             startActivity(intent)
             finish()
         }, splashDelay)

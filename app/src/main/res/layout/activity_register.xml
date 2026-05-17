@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/caloriq_background"
     android:fillViewport="true"
-    tools:context=".auth.LoginActivity">
+    tools:context=".auth.RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Welcome back"
+            android:text="Create account"
             android:textColor="@color/caloriq_text_primary"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Log in to continue your CaloriQ plan."
+            android:text="Sign up once, then log in to CaloriQ."
             android:textColor="@color/caloriq_text_secondary"
             android:textSize="15sp" />
 
@@ -45,7 +45,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etLoginEmail"
+            android:id="@+id/etRegisterEmail"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="8dp"
@@ -64,36 +64,24 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etLoginPassword"
+            android:id="@+id/etRegisterPassword"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/bg_input"
-            android:hint="Enter your password"
+            android:hint="Create a password"
             android:inputType="textPassword"
             android:padding="14dp" />
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="28dp"
             android:backgroundTint="@color/caloriq_primary"
-            android:text="Log in"
+            android:text="Sign up"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
-            app:cornerRadius="14dp" />
-
-        <Button
-            android:id="@+id/btnGoToRegister"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="12dp"
-            android:backgroundTint="@color/caloriq_accent"
-            android:text="Create an account"
-            android:textAllCaps="false"
-            android:textColor="@color/caloriq_primary"
             android:textSize="16sp"
             app:cornerRadius="14dp" />
 

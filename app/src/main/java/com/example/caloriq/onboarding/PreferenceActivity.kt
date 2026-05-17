@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.caloriq.R
 import com.example.caloriq.commondashboard.HomeActivity
 import com.example.caloriq.model.UserProfile
+import com.example.caloriq.repository.UserProfileRepository
 import com.example.caloriq.utils.UserSession
 
 class PreferenceActivity : AppCompatActivity() {
@@ -49,27 +51,39 @@ class PreferenceActivity : AppCompatActivity() {
                 R.id.rbDeskWork -> "Desk"
                 R.id.rbPhysicalWork -> "Physical"
                 R.id.rbMixedWork -> "Mixed"
-                else -> "Desk"
+                else -> {
+                    Toast.makeText(this, "Please select your type of work", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
             }
 
             val workoutStatus = when (rgWorkoutStatus.checkedRadioButtonId) {
                 R.id.rbWorkoutYes -> "Yes"
                 R.id.rbWorkoutNo -> "No"
-                else -> "No"
+                else -> {
+                    Toast.makeText(this, "Please select your workout status", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
             }
 
             val mealsPerDay = when (rgMealsPerDay.checkedRadioButtonId) {
                 R.id.rbMeals2 -> 2
                 R.id.rbMeals3 -> 3
                 R.id.rbMeals5 -> 5
-                else -> 3
+                else -> {
+                    Toast.makeText(this, "Please select meals per day", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
             }
 
             val budget = when (rgBudget.checkedRadioButtonId) {
                 R.id.rbBudgetLow -> "Low"
                 R.id.rbBudgetMedium -> "Medium"
                 R.id.rbBudgetHigh -> "High"
-                else -> "Medium"
+                else -> {
+                    Toast.makeText(this, "Please select your budget preference", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
             }
 
             val userProfile = UserProfile(
@@ -89,6 +103,7 @@ class PreferenceActivity : AppCompatActivity() {
             )
 
             UserSession.userProfile = userProfile
+            UserProfileRepository.saveUserProfile(this, userProfile)
 
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)

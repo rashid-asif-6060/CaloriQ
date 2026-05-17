@@ -1,12 +1,16 @@
 package com.example.caloriq.commondashboard
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.caloriq.R
+import com.example.caloriq.auth.LoginActivity
+import com.example.caloriq.repository.UserProfileRepository
 import com.example.caloriq.utils.UserSession
 import java.util.Locale
 
@@ -23,30 +27,39 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         val tvProfileBody = findViewById<TextView>(R.id.tvProfileBody)
+        val btnLogout = findViewById<Button>(R.id.btnLogout)
         val userProfile = UserSession.userProfile
 
         if (userProfile == null) {
             tvProfileBody.text = "No profile data found. Please complete onboarding first."
-            return
+        } else {
+            tvProfileBody.text = """
+                Age: ${userProfile.age}
+                Gender: ${userProfile.gender}
+                Height: ${formatNumber(userProfile.heightCm)} cm
+                Current weight: ${formatNumber(userProfile.currentWeightKg)} kg
+                Target weight: ${formatNumber(userProfile.targetWeightKg)} kg
+                Goal: ${userProfile.goal}
+
+                Work type: ${userProfile.workType}
+                Workout: ${userProfile.workoutStatus}
+                Meals per day: ${userProfile.mealsPerDay}
+                Budget: ${userProfile.budget}
+
+                Allergies: ${formatEmpty(userProfile.allergies)}
+                Disliked foods: ${formatEmpty(userProfile.dislikedFoods)}
+                Favorite foods: ${formatEmpty(userProfile.favoriteFoods)}
+            """.trimIndent()
         }
 
-        tvProfileBody.text = """
-            Age: ${userProfile.age}
-            Gender: ${userProfile.gender}
-            Height: ${formatNumber(userProfile.heightCm)} cm
-            Current weight: ${formatNumber(userProfile.currentWeightKg)} kg
-            Target weight: ${formatNumber(userProfile.targetWeightKg)} kg
-            Goal: ${userProfile.goal}
+        btnLogout.setOnClickListener {
+            UserSession.userProfile = null
+            UserProfileRepository.clearUserProfile(this)
 
-            Work type: ${userProfile.workType}
-            Workout: ${userProfile.workoutStatus}
-            Meals per day: ${userProfile.mealsPerDay}
-            Budget: ${userProfile.budget}
-
-            Allergies: ${formatEmpty(userProfile.allergies)}
-            Disliked foods: ${formatEmpty(userProfile.dislikedFoods)}
-            Favorite foods: ${formatEmpty(userProfile.favoriteFoods)}
-        """.trimIndent()
+            val intent = Intent(this, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
     }
 
     private fun formatEmpty(value: String): String {

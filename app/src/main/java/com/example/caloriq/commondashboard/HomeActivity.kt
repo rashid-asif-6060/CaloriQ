@@ -36,6 +36,8 @@ class HomeActivity : AppCompatActivity() {
         val btnTrackMeal = findViewById<Button>(R.id.btnTrackMeal)
         val btnViewProgress = findViewById<Button>(R.id.btnViewProgress)
         val btnViewProfile = findViewById<Button>(R.id.btnViewProfile)
+        val btnViewReminders = findViewById<Button>(R.id.btnViewReminders)
+        val btnExportPlan = findViewById<Button>(R.id.btnExportPlan)
 
         val userProfile = UserSession.userProfile
 
@@ -88,6 +90,16 @@ class HomeActivity : AppCompatActivity() {
 
         btnViewProfile.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnViewReminders.setOnClickListener {
+            val intent = Intent(this, ReminderActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnExportPlan.setOnClickListener {
+            val intent = Intent(this, ExportPlanActivity::class.java)
             startActivity(intent)
         }
     }
