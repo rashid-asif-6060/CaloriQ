@@ -14,10 +14,11 @@ import com.example.caloriq.commondashboard.HomeActivity
 import com.example.caloriq.onboarding.OnboardingActivity
 import com.example.caloriq.repository.UserProfileRepository
 import com.example.caloriq.utils.UserSession
+import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity() {
 
-    private val preferenceName = "CaloriQAuth"
+    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,26 +50,35 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val sharedPreferences = getSharedPreferences(preferenceName, MODE_PRIVATE)
-            val savedEmail = sharedPreferences.getString("email", "")
-            val savedPassword = sharedPreferences.getString("password", "")
+            btnLogin.isEnabled = false
 
-            if (email == savedEmail && password == savedPassword) {
-                Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
+                    UserProfileRepository.getCurrentUserProfile(
+                        onResult = { savedProfile ->
+                            btnLogin.isEnabled = true
+                            Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show()
 
-                val savedProfile = UserProfileRepository.getUserProfile(this)
-                val intent = if (savedProfile != null) {
-                    UserSession.userProfile = savedProfile
-                    Intent(this, HomeActivity::class.java)
-                } else {
-                    Intent(this, OnboardingActivity::class.java)
+                            val intent = if (savedProfile != null) {
+                                UserSession.userProfile = savedProfile
+                                Intent(this, HomeActivity::class.java)
+                            } else {
+                                Intent(this, OnboardingActivity::class.java)
+                            }
+
+                            startActivity(intent)
+                            finish()
+                        },
+                        onError = { exception ->
+                            btnLogin.isEnabled = true
+                            Toast.makeText(this, exception.message ?: "Failed to load profile", Toast.LENGTH_SHORT).show()
+                        }
+                    )
                 }
-
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
-            }
+                .addOnFailureListener { exception ->
+                    btnLogin.isEnabled = true
+                    Toast.makeText(this, exception.message ?: "Invalid email or password", Toast.LENGTH_SHORT).show()
+                }
         }
 
         btnGoToRegister.setOnClickListener {

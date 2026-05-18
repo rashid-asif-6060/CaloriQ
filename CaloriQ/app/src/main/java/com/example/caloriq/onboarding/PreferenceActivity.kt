@@ -103,11 +103,20 @@ class PreferenceActivity : AppCompatActivity() {
             )
 
             UserSession.userProfile = userProfile
-            UserProfileRepository.saveUserProfile(this, userProfile)
+            btnFinishPreference.isEnabled = false
 
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
+            UserProfileRepository.saveCurrentUserProfile(
+                userProfile = userProfile,
+                onSuccess = {
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                },
+                onError = { exception ->
+                    btnFinishPreference.isEnabled = true
+                    Toast.makeText(this, exception.message ?: "Failed to save profile", Toast.LENGTH_SHORT).show()
+                }
+            )
         }
     }
 }

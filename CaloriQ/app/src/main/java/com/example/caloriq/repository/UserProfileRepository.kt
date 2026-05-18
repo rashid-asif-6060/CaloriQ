@@ -1,60 +1,203 @@
 package com.example.caloriq.repository
 
-import android.content.Context
 import com.example.caloriq.model.UserProfile
+import com.example.caloriq.utils.BmiCalculator
+import com.example.caloriq.utils.BmrCalculator
+import com.example.caloriq.utils.CalorieCalculator
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import java.util.Locale
 
 object UserProfileRepository {
 
-    private const val PREFERENCE_NAME = "CaloriQUserProfile"
+    private const val USERS_COLLECTION = "users"
 
-    fun saveUserProfile(context: Context, userProfile: UserProfile) {
-        val sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
-        sharedPreferences.edit()
-            .putInt("age", userProfile.age)
-            .putString("gender", userProfile.gender)
-            .putFloat("heightCm", userProfile.heightCm.toFloat())
-            .putFloat("currentWeightKg", userProfile.currentWeightKg.toFloat())
-            .putFloat("targetWeightKg", userProfile.targetWeightKg.toFloat())
-            .putString("goal", userProfile.goal)
-            .putString("workType", userProfile.workType)
-            .putString("workoutStatus", userProfile.workoutStatus)
-            .putInt("mealsPerDay", userProfile.mealsPerDay)
-            .putString("allergies", userProfile.allergies)
-            .putString("dislikedFoods", userProfile.dislikedFoods)
-            .putString("favoriteFoods", userProfile.favoriteFoods)
-            .putString("budget", userProfile.budget)
-            .putBoolean("hasProfile", true)
-            .apply()
-    }
+    fun createAuthUserDocument(
+        displayName: String,
+        onSuccess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        val user = auth.currentUser
 
-    fun getUserProfile(context: Context): UserProfile? {
-        val sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
-        val hasProfile = sharedPreferences.getBoolean("hasProfile", false)
-
-        if (!hasProfile) {
-            return null
+        if (user == null) {
+            onError(IllegalStateException("No logged-in user found"))
+            return
         }
 
-        return UserProfile(
-            age = sharedPreferences.getInt("age", 0),
-            gender = sharedPreferences.getString("gender", "") ?: "",
-            heightCm = sharedPreferences.getFloat("heightCm", 0f).toDouble(),
-            currentWeightKg = sharedPreferences.getFloat("currentWeightKg", 0f).toDouble(),
-            targetWeightKg = sharedPreferences.getFloat("targetWeightKg", 0f).toDouble(),
-            goal = sharedPreferences.getString("goal", "") ?: "",
-            workType = sharedPreferences.getString("workType", "") ?: "",
-            workoutStatus = sharedPreferences.getString("workoutStatus", "") ?: "",
-            mealsPerDay = sharedPreferences.getInt("mealsPerDay", 3),
-            allergies = sharedPreferences.getString("allergies", "") ?: "",
-            dislikedFoods = sharedPreferences.getString("dislikedFoods", "") ?: "",
-            favoriteFoods = sharedPreferences.getString("favoriteFoods", "") ?: "",
-            budget = sharedPreferences.getString("budget", "") ?: ""
+        val userData = hashMapOf(
+            "uid" to user.uid,
+            "email" to (user.email ?: ""),
+            "displayName" to displayName,
+            "photoUrl" to "",
+            "createdAt" to Timestamp.now(),
+            "updatedAt" to Timestamp.now(),
+            "onboardingComplete" to false,
+            "role" to "user",
+            "notificationsEnabled" to true,
+            "fcmToken" to ""
         )
+
+        firestore.collection(USERS_COLLECTION)
+            .document(user.uid)
+            .set(userData, SetOptions.merge())
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onError(it) }
     }
 
-    fun clearUserProfile(context: Context) {
-        val sharedPreferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
-        sharedPreferences.edit().clear().apply()
+    fun saveCurrentUserProfile(
+        userProfile: UserProfile,
+        onSuccess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        val user = auth.currentUser
+
+        if (user == null) {
+            onError(IllegalStateException("No logged-in user found"))
+            return
+        }
+
+        val bmi = BmiCalculator.calculateBmi(userProfile.currentWeightKg, userProfile.heightCm)
+        val bmr = BmrCalculator.calculateBmr(
+            gender = userProfile.gender,
+            weightKg = userProfile.currentWeightKg,
+            heightCm = userProfile.heightCm,
+            age = userProfile.age
+        )
+        val dailyCalorieTarget = CalorieCalculator.calculateDailyCalories(
+            bmr = bmr,
+            workType = userProfile.workType,
+            goal = userProfile.goal
+        )
+
+        val userData = hashMapOf(
+            "uid" to user.uid,
+            "email" to (user.email ?: ""),
+            "updatedAt" to Timestamp.now(),
+            "onboardingComplete" to true,
+            "age" to userProfile.age,
+            "gender" to userProfile.gender.lowercase(Locale.US),
+            "heightCm" to userProfile.heightCm,
+            "currentWeightKg" to userProfile.currentWeightKg,
+            "targetWeightKg" to userProfile.targetWeightKg,
+            "fitnessGoal" to toFirestoreGoal(userProfile.goal),
+            "activityType" to toFirestoreActivityType(userProfile.workType),
+            "doesWorkout" to userProfile.workoutStatus.equals("Yes", ignoreCase = true),
+            "mealsPerDay" to userProfile.mealsPerDay,
+            "foodAllergies" to splitCsv(userProfile.allergies),
+            "dislikedFoods" to splitCsv(userProfile.dislikedFoods),
+            "favoriteFoods" to splitCsv(userProfile.favoriteFoods),
+            "budgetLevel" to userProfile.budget.lowercase(Locale.US),
+            "bmr" to bmr,
+            "tdee" to dailyCalorieTarget.toDouble(),
+            "bmi" to bmi,
+            "bmiCategory" to BmiCalculator.getBmiStatus(bmi).lowercase(Locale.US),
+            "dailyCalorieTarget" to dailyCalorieTarget,
+            "role" to "user"
+        )
+
+        firestore.collection(USERS_COLLECTION)
+            .document(user.uid)
+            .set(userData, SetOptions.merge())
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onError(it) }
+    }
+
+    fun getCurrentUserProfile(
+        onResult: (UserProfile?) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        val user = auth.currentUser
+
+        if (user == null) {
+            onResult(null)
+            return
+        }
+
+        firestore.collection(USERS_COLLECTION)
+            .document(user.uid)
+            .get()
+            .addOnSuccessListener { document ->
+                if (!document.exists() || document.getBoolean("onboardingComplete") != true) {
+                    onResult(null)
+                    return@addOnSuccessListener
+                }
+
+                onResult(
+                    UserProfile(
+                        age = document.getLong("age")?.toInt() ?: 0,
+                        gender = document.getString("gender").orEmpty().replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(Locale.US) else it.toString()
+                        },
+                        heightCm = document.getDouble("heightCm") ?: 0.0,
+                        currentWeightKg = document.getDouble("currentWeightKg") ?: 0.0,
+                        targetWeightKg = document.getDouble("targetWeightKg") ?: 0.0,
+                        goal = fromFirestoreGoal(document.getString("fitnessGoal").orEmpty()),
+                        workType = fromFirestoreActivityType(document.getString("activityType").orEmpty()),
+                        workoutStatus = if (document.getBoolean("doesWorkout") == true) "Yes" else "No",
+                        mealsPerDay = document.getLong("mealsPerDay")?.toInt() ?: 3,
+                        allergies = joinList(document.get("foodAllergies")),
+                        dislikedFoods = joinList(document.get("dislikedFoods")),
+                        favoriteFoods = joinList(document.get("favoriteFoods")),
+                        budget = document.getString("budgetLevel").orEmpty().replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(Locale.US) else it.toString()
+                        }
+                    )
+                )
+            }
+            .addOnFailureListener { onError(it) }
+    }
+
+    fun signOut() {
+        auth.signOut()
+    }
+
+    private fun splitCsv(value: String): List<String> {
+        return value.split(",")
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+    }
+
+    private fun joinList(value: Any?): String {
+        return (value as? List<*>)
+            ?.mapNotNull { it?.toString() }
+            ?.joinToString(", ")
+            .orEmpty()
+    }
+
+    private fun toFirestoreGoal(goal: String): String {
+        return when (goal) {
+            "Weight Loss" -> "weight_loss"
+            "Weight Gain" -> "weight_gain"
+            else -> "maintenance"
+        }
+    }
+
+    private fun fromFirestoreGoal(goal: String): String {
+        return when (goal) {
+            "weight_loss" -> "Weight Loss"
+            "weight_gain" -> "Weight Gain"
+            else -> "Maintenance"
+        }
+    }
+
+    private fun toFirestoreActivityType(workType: String): String {
+        return when (workType) {
+            "Physical" -> "physical"
+            "Mixed" -> "mixed"
+            else -> "mental"
+        }
+    }
+
+    private fun fromFirestoreActivityType(activityType: String): String {
+        return when (activityType) {
+            "physical" -> "Physical"
+            "mixed" -> "Mixed"
+            else -> "Desk"
+        }
     }
 }
