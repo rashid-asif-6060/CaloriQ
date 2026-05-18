@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/caloriq_background"
+    android:fillViewport="true"
+    tools:context=".commondashboard.DietPlanActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvDietPlanTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Diet plan"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDietPlanSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Simple Bangladeshi meals matched to your daily target."
+            android:textColor="@color/caloriq_text_secondary"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tvDietCalories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:background="@drawable/bg_card"
+            android:padding="18dp"
+            android:text="Daily target: 0 kcal"
+            android:textColor="@color/caloriq_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvMealPlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_card"
+            android:lineSpacingExtra="6dp"
+            android:padding="18dp"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="15sp"
+            tools:text="Breakfast\nRice, egg, vegetables" />
+
+    </LinearLayout>
+
+</ScrollView>
