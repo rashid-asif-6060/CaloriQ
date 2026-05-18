@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/caloriq_background"
+    android:fillViewport="true"
+    tools:context=".onboarding.OnboardingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tell us about you"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="This helps CaloriQ calculate your BMI and daily calorie needs."
+            android:textColor="@color/caloriq_text_secondary"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:lineSpacingExtra="3dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Age"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etAge"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:hint="Enter your age"
+            android:inputType="number"
+            android:padding="14dp"
+            android:background="@drawable/bg_input" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Gender"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgGender"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_input"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp">
+
+            <RadioButton
+                android:id="@+id/rbMale"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Male"
+                android:textColor="@color/caloriq_text_primary"
+                android:buttonTint="@color/caloriq_primary" />
+
+            <RadioButton
+                android:id="@+id/rbFemale"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Female"
+                android:textColor="@color/caloriq_text_primary"
+                android:buttonTint="@color/caloriq_primary" />
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Height"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etHeight"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:hint="Enter height in cm"
+            android:inputType="numberDecimal"
+            android:padding="14dp"
+            android:background="@drawable/bg_input" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Current weight"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCurrentWeight"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:hint="Enter current weight in kg"
+            android:inputType="numberDecimal"
+            android:padding="14dp"
+            android:background="@drawable/bg_input" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Target weight"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etTargetWeight"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:hint="Enter target weight in kg"
+            android:inputType="numberDecimal"
+            android:padding="14dp"
+            android:background="@drawable/bg_input" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Goal"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgGoal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_input"
+            android:padding="14dp">
+
+            <RadioButton
+                android:id="@+id/rbWeightLoss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Weight Loss"
+                android:textColor="@color/caloriq_text_primary"
+                android:buttonTint="@color/caloriq_primary" />
+
+            <RadioButton
+                android:id="@+id/rbWeightGain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Weight Gain"
+                android:textColor="@color/caloriq_text_primary"
+                android:buttonTint="@color/caloriq_primary" />
+
+            <RadioButton
+                android:id="@+id/rbMaintenance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Maintenance"
+                android:textColor="@color/caloriq_text_primary"
+                android:buttonTint="@color/caloriq_primary" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnContinueOnboarding"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="28dp"
+            android:backgroundTint="@color/caloriq_primary"
+            android:text="Continue"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:cornerRadius="14dp" />
+
+    </LinearLayout>
+
+</ScrollView>

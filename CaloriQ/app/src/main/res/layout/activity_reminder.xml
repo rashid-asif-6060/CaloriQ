@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/caloriq_background"
+    android:fillViewport="true"
+    tools:context=".commondashboard.ReminderActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvReminderTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reminders"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvReminderSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Choose what CaloriQ should remind you about."
+            android:textColor="@color/caloriq_text_secondary"
+            android:textSize="15sp" />
+
+        <CheckBox
+            android:id="@+id/cbMealReminder"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="26dp"
+            android:background="@drawable/bg_card"
+            android:buttonTint="@color/caloriq_primary"
+            android:padding="18dp"
+            android:text="Meal reminders"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cbWorkoutReminder"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:buttonTint="@color/caloriq_primary"
+            android:padding="18dp"
+            android:text="Workout reminders"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="16sp" />
+
+        <CheckBox
+            android:id="@+id/cbProgressReminder"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:buttonTint="@color/caloriq_primary"
+            android:padding="18dp"
+            android:text="Progress check reminders"
+            android:textColor="@color/caloriq_text_primary"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvReminderStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_card"
+            android:lineSpacingExtra="5dp"
+            android:padding="18dp"
+            android:text="No reminders selected"
+            android:textColor="@color/caloriq_text_secondary"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</ScrollView>

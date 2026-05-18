@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "851126719838",
+    "project_id": "caloriq-9ba71",
+    "storage_bucket": "caloriq-9ba71.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851126719838:android:86637ec50c4855d236ebcf",
+        "android_client_info": {
+          "package_name": "com.example.caloriq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw0R2JmSriEP8qStDmlelD0EEADi7DFFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
