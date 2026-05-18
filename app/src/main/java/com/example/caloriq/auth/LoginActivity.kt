@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
 
         val etLoginEmail = findViewById<EditText>(R.id.etLoginEmail)
         val etLoginPassword = findViewById<EditText>(R.id.etLoginPassword)
+        val btnForgotPassword = findViewById<Button>(R.id.btnForgotPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val btnGoToRegister = findViewById<Button>(R.id.btnGoToRegister)
 
@@ -69,6 +70,11 @@ class LoginActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        btnForgotPassword.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
         }
 
         btnGoToRegister.setOnClickListener {

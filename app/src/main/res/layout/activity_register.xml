@@ -13,7 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="24dp">
 
@@ -26,50 +25,63 @@
             android:textSize="30sp"
             android:textStyle="bold" />
 
-        <TextView
+        <EditText
+            android:id="@+id/etFirstName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="Sign up once, then log in to CaloriQ."
-            android:textColor="@color/caloriq_text_secondary"
-            android:textSize="15sp" />
+            android:layout_height="56dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/bg_input"
+            android:hint="First name"
+            android:inputType="textPersonName"
+            android:padding="14dp" />
 
-        <TextView
+        <EditText
+            android:id="@+id/etLastName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Email"
-            android:textColor="@color/caloriq_text_primary"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_input"
+            android:hint="Last name"
+            android:inputType="textPersonName"
+            android:padding="14dp" />
 
         <EditText
             android:id="@+id/etRegisterEmail"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/bg_input"
-            android:hint="Enter your email"
+            android:hint="Email"
             android:inputType="textEmailAddress"
             android:padding="14dp" />
 
-        <TextView
+        <EditText
+            android:id="@+id/etPhoneNumber"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="Password"
-            android:textColor="@color/caloriq_text_primary"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_input"
+            android:hint="Phone number"
+            android:inputType="phone"
+            android:padding="14dp" />
 
         <EditText
             android:id="@+id/etRegisterPassword"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/bg_input"
-            android:hint="Create a password"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="14dp" />
+
+        <EditText
+            android:id="@+id/etConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_input"
+            android:hint="Confirm password"
             android:inputType="textPassword"
             android:padding="14dp" />
 
@@ -79,7 +91,7 @@
             android:layout_height="56dp"
             android:layout_marginTop="28dp"
             android:backgroundTint="@color/caloriq_primary"
-            android:text="Sign up"
+            android:text="Register"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="16sp"
